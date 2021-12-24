@@ -79,6 +79,6 @@ public class HttpServer {
 
     private CompletionStage<Response> transferRequest(String url, int count) {
         return Patterns.ask(storage, new GetRandomServerMessage(), Duration.ofSeconds(2))
-                .
+                .thenApply()
     }
 }
