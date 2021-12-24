@@ -40,6 +40,7 @@ public class HttpServer {
     private String host;
     private int port;
     private ZooKeeper zooKeeper;
+    private AsyncHttpClient client;
 
     private Logger logger = Logger.getLogger(HttpServer.class.getName());
 
@@ -50,9 +51,9 @@ public class HttpServer {
         storage = actorSystem.actorOf(Props.create(StorageActor.class), STORAGE);
     }
 
-    public HttpServer(String host, int post, ZooKeeper zooKeeper) {
-        this.host = host;
-        this.port = post;
+    public HttpServer(ActorRef storage, AsyncHttpClient client, ZooKeeper zooKeeper) {
+        this.storage = storage;
+        this.client = client;
         this.zooKeeper = zooKeeper;
     }
 
