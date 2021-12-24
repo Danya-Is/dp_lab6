@@ -1,2 +1,4 @@
-package ru.bmstu.ru.Messages;public class GetRandomServerMessage {
+package ru.bmstu.ru.Messages;
+
+public class GetRandomServerMessage {
 }
