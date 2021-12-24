@@ -23,6 +23,10 @@ public class HttpServer {
     ActorSystem actorSystem = ActorSystem.create("routes");
 
     public HttpServer() {
+
+    }
+
+    public void run() {
         final Http http = Http.get(actorSystem);
         final ActorMaterializer actorMaterializer = ActorMaterializer.create(actorSystem);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = createFlow(casher, actorMaterializer);
@@ -36,7 +40,6 @@ public class HttpServer {
 
         binding.thenCompose(ServerBinding::unbind).thenAccept(unbound -> actorSystem.terminate());
     }
-
     private static Flow<HttpRequest, HttpResponse, NotUsed> createFlow(ActorRef casher, ActorMaterializer actorMaterializer) {
         return Flow.of(HttpRequest.class)
                 .map(request -> {
