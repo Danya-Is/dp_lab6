@@ -30,6 +30,7 @@ public class HttpServer {
     public void run() throws IOException {
         final Http http = Http.get(actorSystem);
         final ActorMaterializer actorMaterializer = ActorMaterializer.create(actorSystem);
+        AsyncHttpClient client = asyncHttpClient();
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = createFlow(casher, actorMaterializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
