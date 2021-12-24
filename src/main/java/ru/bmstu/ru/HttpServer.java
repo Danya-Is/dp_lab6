@@ -1,6 +1,7 @@
 package ru.bmstu.ru;
 
 import akka.NotUsed;
+import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.http.javadsl.ConnectHttp;
 import akka.http.javadsl.Http;
@@ -15,7 +16,10 @@ import java.util.concurrent.CompletionStage;
 
 public class HttpServer {
     private static final int PORT = 8888;
-    private static final String LOCALHOST = "localhost";
+    public static final String TEST_URL = "testUrl";
+    public static final String LOCALHOST = "localhost";
+    public static final String COUNT = "count";
+    public static final String DEFAULT_COUNT = "1";
     ActorSystem actorSystem = ActorSystem.create("routes");
 
     public HttpServer() {
