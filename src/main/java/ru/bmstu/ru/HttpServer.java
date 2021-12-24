@@ -14,6 +14,7 @@ import java.util.concurrent.CompletionStage;
 
 public class HttpServer {
     private static final int PORT = 8888;
+    private static final String LOCALHOST = "";
     ActorSystem actorSystem = ActorSystem.create("routes");
     final Http http = Http.get(actorSystem);
     final ActorMaterializer materializer = ActorMaterializer.create(actorSystem);
