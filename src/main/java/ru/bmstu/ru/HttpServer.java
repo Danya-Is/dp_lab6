@@ -10,12 +10,15 @@ import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.http.javadsl.model.Query;
+import akka.http.javadsl.server.Route;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 import org.asynchttpclient.AsyncHttpClient;
 
 import java.io.IOException;
 import java.util.concurrent.CompletionStage;
+
+import static akka.http.javadsl.server.Directives.route;
 import static org.asynchttpclient.Dsl.asyncHttpClient;
 
 public class HttpServer {
@@ -53,5 +56,12 @@ public class HttpServer {
         System.in.read();
 
         binding.thenCompose(ServerBinding::unbind).thenAccept(unbound -> actorSystem.terminate());
+    }
+
+    public Route createRoute(ActorSystem actorSystem) {
+        return route(
+                get(() ->
+                        )
+        )
     }
 }
