@@ -12,6 +12,7 @@ import akka.http.javadsl.model.Query;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 
+import java.io.IOException;
 import java.util.concurrent.CompletionStage;
 
 public class HttpServer {
@@ -26,7 +27,7 @@ public class HttpServer {
 
     }
 
-    public void run() {
+    public void run() throws IOException {
         final Http http = Http.get(actorSystem);
         final ActorMaterializer actorMaterializer = ActorMaterializer.create(actorSystem);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = createFlow(casher, actorMaterializer);

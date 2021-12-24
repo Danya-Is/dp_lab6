@@ -7,4 +7,6 @@ public class AnonymizeApp {
             System.exit(1);
         }
     }
+
+    HttpServer server = new HttpServer();
 }
