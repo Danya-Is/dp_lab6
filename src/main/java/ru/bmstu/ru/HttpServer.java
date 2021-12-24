@@ -14,6 +14,7 @@ import akka.http.javadsl.server.Route;
 import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
+import org.apache.zookeeper.ZooKeeper;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.Response;
 import ru.bmstu.ru.Messages.GetRandomServerMessage;
@@ -48,6 +49,7 @@ public class HttpServer {
     public void run() throws IOException {
 
         final Http http = Http.get(actorSystem);
+        final ZooKeeper zooKeeper = new ZooKeeper(LOCALHOST + ":" + PORT, 2000, );
         final ActorMaterializer actorMaterializer = ActorMaterializer.create(actorSystem);
         AsyncHttpClient client = asyncHttpClient();
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = .createFlow(casher, actorMaterializer);
