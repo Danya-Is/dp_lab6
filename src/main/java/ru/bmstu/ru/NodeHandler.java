@@ -13,4 +13,8 @@ public class NodeHandler {
         this.zoo = zoo;
         this.storage = storage;
     }
+
+    private void watchChildren() {
+        storage.tell();
+    }
 }
