@@ -1,8 +1,12 @@
 package ru.bmstu.ru;
 
 import akka.actor.ActorRef;
+import org.apache.zookeeper.KeeperException;
+import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.ZooKeeper;
 import ru.bmstu.ru.Messages.ServersListMessage;
+
+import java.util.stream.Collectors;
 
 public class NodeHandler {
     private ZooKeeper zooKeeper;
@@ -15,7 +19,13 @@ public class NodeHandler {
         this.storage = storage;
     }
 
-    private void watchChildren() {
-        storage.tell(new ServersListMessage(zooKeeper.getChildren(path, event -> watchChildren(event))));
+    private void watchChildren(WatchedEvent event) throws InterruptedException, KeeperException {
+        storage.tell(new ServersListMessage(zooKeeper.getChildren(path, this::watchChildren).stream()
+                .map(subPath -> createPath(path, subPath))
+                .collect(Collectors.toList())), ActorRef.noSender());
+    }
+
+    private String createPath(String path, String subPath) {
+        return path + "/" + subPath;
     }
 }
