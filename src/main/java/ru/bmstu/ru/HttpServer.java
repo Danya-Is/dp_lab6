@@ -11,6 +11,7 @@ import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.http.javadsl.model.Query;
 import akka.http.javadsl.server.Route;
+import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 import org.asynchttpclient.AsyncHttpClient;
@@ -68,7 +69,13 @@ public class HttpServer {
     }
 
     private handleRequest(String url, int count) {
-        CompletionStage<Response> response = count > 1 ? 
+        CompletionStage<Response> response = count > 1 ?
+                asyncHttpClient().executeRequest(asyncHttpClient().prepareGet(url).build()).toCompletableFuture() :
+                transferRequest()
 
+    }
+
+    private CompletionStage<Response> transferRequest(String url, int count) {
+        return Patterns.ask(storage, )
     }
 }
