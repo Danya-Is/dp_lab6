@@ -14,6 +14,7 @@ import akka.http.javadsl.server.Route;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.Response;
 
 import java.io.IOException;
 import java.util.concurrent.CompletionStage;
@@ -60,8 +61,14 @@ public class HttpServer {
 
     public Route createRoute(ActorSystem actorSystem) {
         return route(
-                get(() ->
-                        )
+                get(() -> {
+                    parameter("url", url -> parameter("count", count ->))
+                })
         )
+    }
+
+    private handleRequest(String url, int count) {
+        CompletionStage<Response> response = count > 1 ? 
+
     }
 }
