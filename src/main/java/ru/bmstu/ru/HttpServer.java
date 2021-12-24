@@ -65,7 +65,9 @@ public class HttpServer {
         AsyncHttpClient client = asyncHttpClient();
 
         final HttpServer instance = new HttpServer(storage, client, zooKeeper);
-        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = .createFlow(casher, actorMaterializer);
+        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRoute(actorSystem)
+                .flow(actorSystem, actorMaterializer);
+        
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
                 ConnectHttp.toHost(LOCALHOST, PORT),
