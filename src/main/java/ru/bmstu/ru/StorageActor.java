@@ -2,6 +2,7 @@ package ru.bmstu.ru;
 
 import akka.actor.AbstractActor;
 import ru.bmstu.ru.Messages.GetRandomServerMessage;
+import ru.bmstu.ru.Messages.RandomServerMessage;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,6 @@ public class StorageActor extends AbstractActor {
     }
 
     private void sendRandomServerMessage() {
-        sender().tell();
+        sender().tell(new RandomServerMessage());
     }
 }
