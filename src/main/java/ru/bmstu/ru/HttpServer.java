@@ -16,8 +16,10 @@ import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.Response;
+import ru.bmstu.ru.Messages.GetRandomServerMessage;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 
 import static akka.http.javadsl.server.Directives.*;
@@ -76,6 +78,7 @@ public class HttpServer {
     }
 
     private CompletionStage<Response> transferRequest(String url, int count) {
-        return Patterns.ask(storage, )
+        return Patterns.ask(storage, new GetRandomServerMessage(), Duration.ofSeconds(2))
+                .
     }
 }
