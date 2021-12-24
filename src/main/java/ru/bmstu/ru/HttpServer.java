@@ -7,6 +7,7 @@ import akka.http.javadsl.Http;
 import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
+import akka.http.javadsl.model.Query;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 
@@ -53,5 +54,18 @@ public class HttpServer {
                     casher.tell(new Response(result.first(), result.second()), ActorRef.noSender());
                     return HttpResponse.create().withEntity("RESULT " + result.first() + ": " + result.second() + "\n");
                 });
+    }
+
+    private static Sink<Pair<String, Integer>, CompletionStage<Long>> createSink(int copiesAmount) {
+        return Flow.<Pair<String, Integer>>create()
+                .mapConcat(pair -> Collections.nCopies(pair.second(), pair.first()))
+                .mapAsync(copiesAmount, url -> {
+                    AsyncHttpClient client = asyncHttpClient();
+                    long startTime = System.currentTimeMillis();
+                    client.prepareGet(url).execute();
+                    long executeTime = System.currentTimeMillis() - startTime;
+                    return CompletableFuture.completedFuture(executeTime);
+                })
+                .toMat(Sink.fold(0L, Long::sum), Keep.right());
     }
 }
