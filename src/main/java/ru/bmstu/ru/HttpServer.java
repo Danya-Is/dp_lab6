@@ -14,6 +14,7 @@ import akka.stream.javadsl.Flow;
 
 import java.io.IOException;
 import java.util.concurrent.CompletionStage;
+import static org.asynchttpclient.Dsl.asyncHttpClient;
 
 public class HttpServer {
     private static final int PORT = 8888;
