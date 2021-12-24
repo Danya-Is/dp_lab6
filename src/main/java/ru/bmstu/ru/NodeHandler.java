@@ -19,10 +19,15 @@ public class NodeHandler {
         this.storage = storage;
     }
 
-    private void watchChildren(WatchedEvent event) throws InterruptedException, KeeperException {
-        storage.tell(new ServersListMessage(zooKeeper.getChildren(path, this::watchChildren).stream()
-                .map(subPath -> createPath(path, subPath))
-                .collect(Collectors.toList())), ActorRef.noSender());
+    private void watchChildren(WatchedEvent event) {
+        try{
+            storage.tell(new ServersListMessage(zooKeeper.getChildren(path, this::watchChildren).stream()
+                    .map(subPath -> createPath(path, subPath))
+                    .collect(Collectors.toList())), ActorRef.noSender());
+        } catch (InterruptedException| KeeperException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private String createPath(String path, String subPath) {

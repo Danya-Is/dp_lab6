@@ -1,16 +1,17 @@
 package ru.bmstu.ru.Messages;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ServersListMessage {
 
-    private ArrayList<String> servers;
+    private List<String> servers;
 
-    public ServersListMessage(ArrayList<String> servers) {
+    public ServersListMessage(List<String> servers) {
         this.servers = servers;
     }
 
-    public ArrayList<String> getServers() {
+    public List<String> getServers() {
         return servers;
     }
 }

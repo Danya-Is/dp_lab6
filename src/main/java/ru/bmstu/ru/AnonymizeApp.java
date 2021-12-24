@@ -9,7 +9,10 @@ public class AnonymizeApp {
             System.exit(1);
         }
 
-        HttpServer server = new HttpServer();
+        String host = args[0];
+        String port = args[1];
+
+        HttpServer server = new HttpServer(host, Integer.parseInt(port));
         server.run();
     }
 }
