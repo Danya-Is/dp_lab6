@@ -39,6 +39,7 @@ public class HttpServer {
     private ActorRef storage;
     private String host;
     private int port;
+    private ZooKeeper zooKeeper;
 
     private Logger logger = Logger.getLogger(HttpServer.class.getName());
 
@@ -49,12 +50,20 @@ public class HttpServer {
         storage = actorSystem.actorOf(Props.create(StorageActor.class), STORAGE);
     }
 
+    public HttpServer(String host, int post, ZooKeeper zooKeeper) {
+        this.host = host;
+        this.port = post;
+        this.zooKeeper = zooKeeper;
+    }
+
     public void run() throws IOException {
 
         final Http http = Http.get(actorSystem);
         final ZooKeeper zooKeeper = new ZooKeeper(LOCALHOST + ":" + PORT, 2000, w -> logger.info(w.toString()));
         final ActorMaterializer actorMaterializer = ActorMaterializer.create(actorSystem);
         AsyncHttpClient client = asyncHttpClient();
+
+        final HttpServer instance = new HttpServer(storage, client, zooKeeper);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = .createFlow(casher, actorMaterializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
