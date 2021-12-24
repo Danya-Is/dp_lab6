@@ -9,18 +9,21 @@ import akka.http.javadsl.Http;
 import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
-import akka.http.javadsl.model.Query;
 import akka.http.javadsl.server.Route;
 import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
+import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
 import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.Request;
 import org.asynchttpclient.Response;
 import ru.bmstu.ru.Messages.GetRandomServerMessage;
+import ru.bmstu.ru.Messages.RandomServerMessage;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.concurrent.CompletionStage;
 import java.util.logging.Logger;
 
@@ -67,7 +70,7 @@ public class HttpServer {
         final HttpServer instance = new HttpServer(storage, client, zooKeeper);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRoute(actorSystem)
                 .flow(actorSystem, actorMaterializer);
-        
+
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
                 ConnectHttp.toHost(LOCALHOST, PORT),
@@ -81,21 +84,45 @@ public class HttpServer {
 
     public Route createRoute(ActorSystem actorSystem) {
         return route(
-                get(() -> {
-                    parameter("url", url -> parameter("count", count ->))
-                })
-        )
+                get(() -> parameter("url", url ->
+                            parameter("count", count ->
+                                handleRequest(url, Integer.parseInt(count))
+                            )
+                        )
+                )
+        );
     }
 
-    private handleRequest(String url, int count) {
+    private Route handleRequest(String url, int count) {
         CompletionStage<Response> response = count > 1 ?
-                asyncHttpClient().executeRequest(asyncHttpClient().prepareGet(url).build()).toCompletableFuture() :
-                transferRequest()
+                doRequest(client.prepareGet(url).build()) :
+                transferRequest(url, count);
 
+        return completeOKWithFutureString(response.thenApply(Response::getResponseBody));
     }
 
     private CompletionStage<Response> transferRequest(String url, int count) {
         return Patterns.ask(storage, new GetRandomServerMessage(), Duration.ofSeconds(2))
-                .thenApply()
+                .thenApply(randomServer -> ((RandomServerMessage)randomServer).getServer())
+                .thenCompose(msg -> doRequest(makeRequest(getServerUrl(msg), url, count - 1)));
+    }
+
+    private CompletionStage<Response> doRequest(Request request) {
+        return client.executeRequest(request).toCompletableFuture();
+    }
+
+    private Request makeRequest(String serverUrl, String testUrl, int count) {
+        return client.prepareGet(serverUrl)
+                .addQueryParam(TEST_URL, testUrl)
+                .addQueryParam(COUNT, String.valueOf(count))
+                .build();
+    }
+
+    private String getServerUrl(String path){
+        try {
+            return Arrays.toString(zooKeeper.getData(path, false, null));
+        } catch (InterruptedException | KeeperException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
