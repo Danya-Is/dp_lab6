@@ -1,2 +1,4 @@
-package ru.bmstu.ru;public class HttpServer {
+package ru.bmstu.ru;
+
+public class HttpServer {
 }
