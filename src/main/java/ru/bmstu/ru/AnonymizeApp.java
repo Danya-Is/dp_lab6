@@ -1,2 +1,7 @@
-package ru.bmstu.ru;public class AnonimaizerApp {
+package ru.bmstu.ru;
+
+public class AnonymizeApp {
+    public static void main(String[] args) {
+
+    }
 }

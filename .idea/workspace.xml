@@ -10,6 +10,16 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="7dy4x1k1" />
+  </component>
   <component name="ProjectId" id="22QLy8am4hnXiE9BQxxF4btFVMj" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -43,7 +53,7 @@
       <option name="presentableId" value="Default" />
       <updated>1639765116889</updated>
       <workItem from="1639765118113" duration="1954000" />
-      <workItem from="1640362423421" duration="641000" />
+      <workItem from="1640362423421" duration="954000" />
     </task>
     <servers />
   </component>
