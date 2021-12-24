@@ -32,5 +32,26 @@ public class HttpServer {
         binding.thenCompose(ServerBinding::unbind).thenAccept(unbound -> actorSystem.terminate());
     }
 
-    
+    private static Flow<HttpRequest, HttpResponse, NotUsed> createFlow(ActorRef casher, ActorMaterializer actorMaterializer) {
+        return Flow.of(HttpRequest.class)
+                .map(request -> {
+                    Query query = request.getUri().query();
+                    String url = query.get(TEST_URL).orElse(LOCALHOST);
+                    int count = Integer.parseInt(query.get(COUNT).orElse(DEFAULT_COUNT));
+                    return new Pair<>(url, count);
+                })
+                .mapAsync(4, (pair -> Patterns.ask(casher, pair.first(), Duration.ofSeconds(5)).thenCompose(time -> {
+                    if ((float) time >= 0) {
+                        return CompletableFuture.completedFuture(new Pair<>(pair.first(), (float)time));
+                    }
+                    return Source.from(Collections.singletonList(pair))
+                            .toMat(createSink(pair.second()), Keep.right())
+                            .run(actorMaterializer)
+                            .thenApply(t -> new Pair<>(pair.first(), (float)t/pair.second()));
+                })))
+                .map(result -> {
+                    casher.tell(new Response(result.first(), result.second()), ActorRef.noSender());
+                    return HttpResponse.create().withEntity("RESULT " + result.first() + ": " + result.second() + "\n");
+                });
+    }
 }
