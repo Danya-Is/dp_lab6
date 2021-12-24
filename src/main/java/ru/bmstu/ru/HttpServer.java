@@ -22,6 +22,7 @@ import ru.bmstu.ru.Messages.GetRandomServerMessage;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.CompletionStage;
+import java.util.logging.Logger;
 
 import static akka.http.javadsl.server.Directives.*;
 import static org.asynchttpclient.Dsl.asyncHttpClient;
@@ -38,6 +39,8 @@ public class HttpServer {
     private ActorRef storage;
     private String host;
     private int port;
+
+    private Logger logger =
 
     public HttpServer(String host, int post) {
         this.host = host;
