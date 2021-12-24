@@ -18,7 +18,7 @@ import org.asynchttpclient.AsyncHttpClient;
 import java.io.IOException;
 import java.util.concurrent.CompletionStage;
 
-import static akka.http.javadsl.server.Directives.route;
+import static akka.http.javadsl.server.Directives.*;
 import static org.asynchttpclient.Dsl.asyncHttpClient;
 
 public class HttpServer {
