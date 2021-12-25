@@ -42,6 +42,7 @@ public class HttpServer {
     private String host, path;
     private int port;
     private AsyncHttpClient client;
+    private CompletionStage<ServerBinding> binding;
 
     public HttpServer(String host, int post) {
         this.host = host;
@@ -68,7 +69,7 @@ public class HttpServer {
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRoute()
                 .flow(actorSystem, actorMaterializer);
 
-        final CompletionStage<ServerBinding> binding = http.bindAndHandle(
+        binding = http.bindAndHandle(
                 routeFlow,
                 ConnectHttp.toHost(LOCALHOST, port),
                 actorMaterializer

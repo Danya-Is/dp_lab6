@@ -16,5 +16,7 @@ public class AnonymizeApp {
         server.run();
 
         System.in.read();
+
+        server.end();
     }
 }
