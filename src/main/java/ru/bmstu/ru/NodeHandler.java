@@ -36,7 +36,9 @@ public class NodeHandler implements Watcher{
 
     private void watchChildren(WatchedEvent event) {
         try{
-            storage.tell(new ServersListMessage(new ArrayList<>(zooKeeper.getChildren(path, this::watchChildren))), ActorRef.noSender());
+            List<String> servers =
+            System.out.println();
+            storage.tell(new ServersListMessage(, ActorRef.noSender());
         } catch (InterruptedException| KeeperException e) {
             throw new RuntimeException(e);
         }
