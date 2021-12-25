@@ -31,7 +31,7 @@ import static org.asynchttpclient.Dsl.asyncHttpClient;
 
 public class HttpServer {
     private static final int PORT = 8888;
-    public static final String TEST_URL = "testUrl";
+    public static final String TEST_URL = "url";
     public static final String LOCALHOST = "localhost";
     public static final String COUNT = "count";
     public static final String DEFAULT_COUNT = "1";
@@ -82,7 +82,7 @@ public class HttpServer {
 
     public Route createRoute(ActorSystem actorSystem) {
         return route(
-                get(() -> parameter("testUrl", url ->
+                get(() -> parameter("url", url ->
                             parameter("count", count ->
                                 handleRequest(url, Integer.parseInt(count))
                             )
