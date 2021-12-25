@@ -73,7 +73,7 @@ public class HttpServer {
                 ConnectHttp.toHost(LOCALHOST, port),
                 actorMaterializer
         );
-        System.out.println("Listening...  " + PORT);
+        System.out.println("Listening...  " + port);
 
         binding.thenCompose(ServerBinding::unbind).thenAccept(unbound -> actorSystem.terminate());
     }
