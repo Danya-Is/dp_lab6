@@ -6,7 +6,7 @@ import ru.bmstu.ru.Messages.ServersListMessage;
 
 import java.util.stream.Collectors;
 
-public class NodeHandler {
+public class NodeHandler implements Watcher{
     public static final String LOCALHOST = "localhost";
     private static final int PORT = 8888;
 
@@ -46,5 +46,10 @@ public class NodeHandler {
 
     private String createPath(String path, String subPath) {
         return path + "/" + subPath;
+    }
+
+    @Override
+    public void process(WatchedEvent watchedEvent) {
+
     }
 }
