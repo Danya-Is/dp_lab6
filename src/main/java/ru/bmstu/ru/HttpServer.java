@@ -55,7 +55,7 @@ public class HttpServer {
         this.client = client;
     }
 
-    public void run() throws IOException {
+    public void run() {
 
         final Http http = Http.get(actorSystem);
         final ActorMaterializer actorMaterializer = ActorMaterializer.create(actorSystem);
@@ -65,7 +65,7 @@ public class HttpServer {
         nodeHandler.start(LOCALHOST + ":" + PORT, host, String.valueOf(port));
 
         final HttpServer instance = new HttpServer(storage, client);
-        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRoute(actorSystem)
+        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRoute()
                 .flow(actorSystem, actorMaterializer);
 
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
@@ -78,7 +78,7 @@ public class HttpServer {
         binding.thenCompose(ServerBinding::unbind).thenAccept(unbound -> actorSystem.terminate());
     }
 
-    public Route createRoute(ActorSystem actorSystem) {
+    public Route createRoute() {
         return route(
                 get(() -> parameter("url", url ->
                             parameter("count", count ->
