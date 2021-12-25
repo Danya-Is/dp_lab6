@@ -112,7 +112,7 @@ public class HttpServer {
     }
 
     private Request makeRequest(String serverUrl, String testUrl, int count) {
-        return client.prepareGet(serverUrl)
+        return client.prepareGet("http://" + serverUrl)
                 .addQueryParam(TEST_URL, testUrl)
                 .addQueryParam(COUNT, String.valueOf(count))
                 .build();
