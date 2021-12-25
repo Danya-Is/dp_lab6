@@ -53,10 +53,9 @@ public class HttpServer {
         storage = actorSystem.actorOf(Props.create(StorageActor.class), STORAGE);
     }
 
-    public HttpServer(ActorRef storage, String path, String host, int port) {
+    public HttpServer(ActorRef storage, AsyncHttpClient client, int port) {
         this.storage = storage;
-        this.host = host;
-        this.path = path;
+        this.client = client;
         this.port = port;
     }
 
