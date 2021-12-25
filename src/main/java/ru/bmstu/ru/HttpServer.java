@@ -41,7 +41,7 @@ public class HttpServer {
 
     private ActorSystem actorSystem;
     private ActorRef storage;
-    private String host;
+    private String host, path;
     private int port;
     private ZooKeeper zooKeeper;
     private AsyncHttpClient client;
@@ -51,6 +51,13 @@ public class HttpServer {
         this.port = post;
         actorSystem = ActorSystem.create("routes");
         storage = actorSystem.actorOf(Props.create(StorageActor.class), STORAGE);
+    }
+
+    public HttpServer(ActorRef storage, String path, String host, int port) {
+        this.storage = storage;
+        this.host = host;
+        this.path = path;
+        this.port = port;
     }
 
     public void run() throws IOException {
