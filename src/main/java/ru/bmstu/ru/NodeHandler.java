@@ -7,6 +7,9 @@ import ru.bmstu.ru.Messages.ServersListMessage;
 import java.util.stream.Collectors;
 
 public class NodeHandler {
+    public static final String LOCALHOST = "localhost";
+    private static final int PORT = 8888;
+
     private ZooKeeper zooKeeper;
     private ActorRef storage;
     private String host, path;
