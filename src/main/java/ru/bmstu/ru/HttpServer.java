@@ -74,7 +74,9 @@ public class HttpServer {
                 actorMaterializer
         );
         System.out.println("Listening...  " + port);
+    }
 
+    public void end() {
         binding.thenCompose(ServerBinding::unbind).thenAccept(unbound -> actorSystem.terminate());
     }
 
