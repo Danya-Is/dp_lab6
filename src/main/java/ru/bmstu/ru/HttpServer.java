@@ -92,9 +92,10 @@ public class HttpServer {
     }
 
     private Route handleRequest(String url, int count) {
-        CompletionStage<Response> response = count > 1 ?
-                doRequest(client.prepareGet(url).build()) :
-                transferRequest(url, count);
+        CompletionStage<Response> response = count > 0 ?
+                transferRequest(url, count)
+                :
+                doRequest(client.prepareGet(url).build());
 
         return completeOKWithFutureString(response.thenApply(Response::getResponseBody));
     }
