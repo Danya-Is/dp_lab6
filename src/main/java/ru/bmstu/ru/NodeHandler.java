@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 public class NodeHandler implements Watcher{
-    public static final String LOCALHOST = "localhost";
-    private static final int PORT = 8888;
 
     private ZooKeeper zooKeeper;
     private ActorRef storage;
@@ -25,7 +23,7 @@ public class NodeHandler implements Watcher{
 
     public void start(String name, String host, String port){
         try {
-            zooKeeper = new ZooKeeper(LOCALHOST + ":" + PORT, 2000, this);
+            zooKeeper = new ZooKeeper(name, 2000, this);
             zooKeeper.create(path + "/" + name, (host + ":" + port).getBytes(),
                     ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
             watchChildren(null);
