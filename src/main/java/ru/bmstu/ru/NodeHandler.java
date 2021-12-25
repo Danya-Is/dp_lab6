@@ -4,6 +4,7 @@ import akka.actor.ActorRef;
 import org.apache.zookeeper.*;
 import ru.bmstu.ru.Messages.ServersListMessage;
 
+import java.io.IOException;
 import java.util.stream.Collectors;
 
 public class NodeHandler implements Watcher{
@@ -28,7 +29,7 @@ public class NodeHandler implements Watcher{
             zooKeeper.create(path + "/" + name, (host + ":" + port).getBytes(),
                     ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
             watchChildren(null);
-        } catch (InterruptedException| KeeperException e) {
+        } catch (InterruptedException | KeeperException | IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -51,6 +52,6 @@ public class NodeHandler implements Watcher{
 
     @Override
     public void process(WatchedEvent watchedEvent) {
-
+        watchChildren(null);
     }
 }
