@@ -25,7 +25,7 @@ public class NodeHandler implements Watcher{
     public void start(String name, String host, String port){
         try {
             zooKeeper = new ZooKeeper(name, 2000, this);
-            zooKeeper.create(path + "/" + name, (host + ":" + port).getBytes(),
+            zooKeeper.create(path + "/" + host + ":"  + port, (host + ":" + port).getBytes(),
                     ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
             watchChildren(null);
         } catch (InterruptedException | KeeperException | IOException e) {
