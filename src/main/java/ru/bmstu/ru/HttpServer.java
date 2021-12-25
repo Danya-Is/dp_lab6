@@ -46,19 +46,11 @@ public class HttpServer {
     private ZooKeeper zooKeeper;
     private AsyncHttpClient client;
 
-    private Logger logger = Logger.getLogger(HttpServer.class.getName());
-
     public HttpServer(String host, int post) {
         this.host = host;
         this.port = post;
         actorSystem = ActorSystem.create("routes");
         storage = actorSystem.actorOf(Props.create(StorageActor.class), STORAGE);
-    }
-
-    public HttpServer(ActorRef storage, AsyncHttpClient client, ZooKeeper zooKeeper) {
-        this.storage = storage;
-        this.client = client;
-        this.zooKeeper = zooKeeper;
     }
 
     public void run() throws IOException {
