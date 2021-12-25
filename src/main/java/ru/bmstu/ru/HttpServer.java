@@ -69,6 +69,7 @@ public class HttpServer {
         AsyncHttpClient client = asyncHttpClient();
 
         NodeHandler nodeHandler = new NodeHandler(zooKeeper, storage, SERVERS_PATH);
+        nodeHandler.start();
 
         final HttpServer instance = new HttpServer(storage, client, zooKeeper);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRoute(actorSystem)

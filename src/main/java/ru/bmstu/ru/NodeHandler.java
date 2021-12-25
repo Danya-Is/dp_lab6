@@ -1,9 +1,7 @@
 package ru.bmstu.ru;
 
 import akka.actor.ActorRef;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.WatchedEvent;
-import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.*;
 import ru.bmstu.ru.Messages.ServersListMessage;
 
 import java.util.stream.Collectors;
@@ -19,7 +17,10 @@ public class NodeHandler {
         this.storage = storage;
     }
 
-    private void
+    public void start(String name, String host, String port) throws InterruptedException, KeeperException {
+        zooKeeper.create(path + "/" + name, (host + ":" + port).getBytes(),
+                ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+    }
 
     private void watchChildren(WatchedEvent event) {
         try{
