@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.concurrent.CompletionStage;
-import java.util.logging.Logger;
 
 import static akka.http.javadsl.server.Directives.*;
 import static org.asynchttpclient.Dsl.asyncHttpClient;
@@ -77,7 +76,6 @@ public class HttpServer {
                 actorMaterializer
         );
         System.out.println("Listening...  " + PORT);
-        System.in.read();
 
         binding.thenCompose(ServerBinding::unbind).thenAccept(unbound -> actorSystem.terminate());
     }

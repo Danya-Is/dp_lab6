@@ -14,5 +14,7 @@ public class AnonymizeApp {
 
         HttpServer server = new HttpServer(host, Integer.parseInt(port));
         server.run();
+
+        System.in.read();
     }
 }
