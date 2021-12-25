@@ -64,7 +64,7 @@ public class HttpServer {
         AsyncHttpClient client = asyncHttpClient();
 
         NodeHandler nodeHandler = new NodeHandler(host, port, storage, SERVERS_PATH);
-        nodeHandler.start(LOCALHOST + ":" + port, host, String.valueOf(port));
+        nodeHandler.start(LOCALHOST + ":" + 8888, host, String.valueOf(port));
 
         final HttpServer instance = new HttpServer(storage, client);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRoute(actorSystem)
