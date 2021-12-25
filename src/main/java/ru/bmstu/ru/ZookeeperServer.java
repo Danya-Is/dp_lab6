@@ -1,2 +1,5 @@
-package ru.bmstu.ru;public class ZookeeperServer {
+package ru.bmstu.ru;
+
+public class ZookeeperServer {
+    
 }
