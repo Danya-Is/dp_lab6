@@ -105,6 +105,7 @@ public class HttpServer {
     }
 
     private CompletionStage<Response> doRequest(Request request) {
+        System.out.println("send request to" + path);
         return client.executeRequest(request).toCompletableFuture();
     }
 
