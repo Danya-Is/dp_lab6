@@ -68,7 +68,7 @@ public class HttpServer {
         NodeHandler nodeHandler = new NodeHandler(host, port, storage, SERVERS_PATH);
         nodeHandler.start(LOCALHOST + ":" + port, host, String.valueOf(port));
 
-        final HttpServer instance = new HttpServer(storage, client, zooKeeper);
+        final HttpServer instance = new HttpServer(storage, client);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRoute(actorSystem)
                 .flow(actorSystem, actorMaterializer);
 
@@ -105,7 +105,7 @@ public class HttpServer {
     private CompletionStage<Response> transferRequest(String url, int count) {
         return Patterns.ask(storage, new GetRandomServerMessage(), Duration.ofSeconds(2))
                 .thenApply(randomServer -> ((RandomServerMessage)randomServer).getServer())
-                .thenCompose(msg -> doRequest(makeRequest(getServerUrl(msg), url, count - 1)));
+                .thenCompose(msg -> doRequest(makeRequest(msg, url, count - 1)));
     }
 
     private CompletionStage<Response> doRequest(Request request) {
@@ -117,13 +117,5 @@ public class HttpServer {
                 .addQueryParam(TEST_URL, testUrl)
                 .addQueryParam(COUNT, String.valueOf(count))
                 .build();
-    }
-
-    private String getServerUrl(String path){
-        try {
-            return Arrays.toString(zooKeeper.getData(path, false, null));
-        } catch (InterruptedException | KeeperException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
