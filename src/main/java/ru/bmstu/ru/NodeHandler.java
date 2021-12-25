@@ -16,7 +16,6 @@ public class NodeHandler {
         this.path = path;
         this.host = host;
         this.port = port;
-        this.zooKeeper = zooKeeper;
         this.storage = storage;
     }
 
