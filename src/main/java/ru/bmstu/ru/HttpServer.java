@@ -56,7 +56,6 @@ public class HttpServer {
     public void run() throws IOException {
 
         final Http http = Http.get(actorSystem);
-        final ZooKeeper zooKeeper = new ZooKeeper(LOCALHOST + ":" + PORT, 2000, w -> logger.info(w.toString()));
         final ActorMaterializer actorMaterializer = ActorMaterializer.create(actorSystem);
         AsyncHttpClient client = asyncHttpClient();
 
