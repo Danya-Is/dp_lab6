@@ -15,7 +15,7 @@ public class NodeHandler implements Watcher{
     private String host, path;
     private int port;
 
-    public NodeHandler(String host, String port, ActorRef storage, String path) {
+    public NodeHandler(String host, int port, ActorRef storage, String path) {
         this.path = path;
         this.host = host;
         this.port = port;
