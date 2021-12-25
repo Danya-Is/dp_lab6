@@ -34,7 +34,6 @@ public class HttpServer {
     public static final String TEST_URL = "url";
     public static final String LOCALHOST = "localhost";
     public static final String COUNT = "count";
-    public static final String DEFAULT_COUNT = "1";
     public static final String STORAGE = "storage";
     public static final String SERVERS_PATH = "/servers";
 
@@ -42,7 +41,6 @@ public class HttpServer {
     private ActorRef storage;
     private String host, path;
     private int port;
-    private ZooKeeper zooKeeper;
     private AsyncHttpClient client;
 
     public HttpServer(String host, int post) {
