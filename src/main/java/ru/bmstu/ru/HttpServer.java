@@ -13,17 +13,13 @@ import akka.http.javadsl.server.Route;
 import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
-import org.apache.zookeeper.KeeperException;
-import org.apache.zookeeper.ZooKeeper;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.Response;
 import ru.bmstu.ru.Messages.GetRandomServerMessage;
 import ru.bmstu.ru.Messages.RandomServerMessage;
 
-import java.io.IOException;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.concurrent.CompletionStage;
 
 import static akka.http.javadsl.server.Directives.*;
@@ -36,6 +32,7 @@ public class HttpServer {
     public static final String COUNT = "count";
     public static final String STORAGE = "storage";
     public static final String SERVERS_PATH = "/servers";
+    public static final String HTTP = "http://";
 
     private ActorSystem actorSystem;
     private ActorRef storage;
@@ -83,8 +80,8 @@ public class HttpServer {
 
     public Route createRoute() {
         return route(
-                get(() -> parameter("url", url ->
-                            parameter("count", count ->
+                get(() -> parameter(TEST_URL, url ->
+                            parameter(COUNT, count ->
                                 handleRequest(url, Integer.parseInt(count))
                             )
                         )
@@ -112,7 +109,7 @@ public class HttpServer {
     }
 
     private Request makeRequest(String serverUrl, String testUrl, int count) {
-        return client.prepareGet("http://" + serverUrl)
+        return client.prepareGet(HTTP + serverUrl)
                 .addQueryParam(TEST_URL, testUrl)
                 .addQueryParam(COUNT, String.valueOf(count))
                 .build();
