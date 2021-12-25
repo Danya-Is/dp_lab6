@@ -30,7 +30,7 @@ import static akka.http.javadsl.server.Directives.*;
 import static org.asynchttpclient.Dsl.asyncHttpClient;
 
 public class HttpServer {
-    private static final int PORT = 9888;
+    private static final int PORT = 8888;
     public static final String TEST_URL = "testUrl";
     public static final String LOCALHOST = "localhost";
     public static final String COUNT = "count";
