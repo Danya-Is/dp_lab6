@@ -37,6 +37,7 @@ public class HttpServer {
     public static final String COUNT = "count";
     public static final String DEFAULT_COUNT = "1";
     public static final String STORAGE = "storage";
+    public static final String SERVERS_PATH = "/servers";
 
     private ActorSystem actorSystem;
     private ActorRef storage;
@@ -66,6 +67,8 @@ public class HttpServer {
         final ZooKeeper zooKeeper = new ZooKeeper(LOCALHOST + ":" + PORT, 2000, w -> logger.info(w.toString()));
         final ActorMaterializer actorMaterializer = ActorMaterializer.create(actorSystem);
         AsyncHttpClient client = asyncHttpClient();
+
+        NodeHandler nodeHandler = new NodeHandler(zooKeeper, storage, SERVERS_PATH);
 
         final HttpServer instance = new HttpServer(storage, client, zooKeeper);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRoute(actorSystem)
