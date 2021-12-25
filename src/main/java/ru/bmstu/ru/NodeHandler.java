@@ -21,6 +21,7 @@ public class NodeHandler {
 
     public void start(String name, String host, String port){
         try {
+            zooKeeper = new ZooKeeper()
             zooKeeper.create(path + "/" + name, (host + ":" + port).getBytes(),
                     ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
         } catch (InterruptedException| KeeperException e) {
