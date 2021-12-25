@@ -19,6 +19,8 @@ public class NodeHandler {
         this.storage = storage;
     }
 
+    private void
+
     private void watchChildren(WatchedEvent event) {
         try{
             storage.tell(new ServersListMessage(zooKeeper.getChildren(path, this::watchChildren).stream()
