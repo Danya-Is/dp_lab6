@@ -31,7 +31,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Application.AnonymizeApp">
+  <component name="RunManager" selected="Application.AnonymizeApp2">
     <configuration name="AnonymizeApp" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
