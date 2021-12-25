@@ -72,7 +72,7 @@ public class HttpServer {
 
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
-                ConnectHttp.toHost(LOCALHOST, PORT),
+                ConnectHttp.toHost(LOCALHOST, port),
                 actorMaterializer
         );
         System.out.println("Listening...  " + PORT);
