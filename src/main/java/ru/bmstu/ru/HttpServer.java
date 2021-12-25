@@ -59,7 +59,7 @@ public class HttpServer {
         final ActorMaterializer actorMaterializer = ActorMaterializer.create(actorSystem);
         AsyncHttpClient client = asyncHttpClient();
 
-        NodeHandler nodeHandler = new NodeHandler(zooKeeper, storage, SERVERS_PATH);
+        NodeHandler nodeHandler = new NodeHandler(host, port, storage, SERVERS_PATH);
         nodeHandler.start(LOCALHOST + ":" + port, host, String.valueOf(port));
 
         final HttpServer instance = new HttpServer(storage, client, zooKeeper);
