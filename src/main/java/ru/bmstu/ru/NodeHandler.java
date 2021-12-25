@@ -9,10 +9,13 @@ import java.util.stream.Collectors;
 public class NodeHandler {
     private ZooKeeper zooKeeper;
     private ActorRef storage;
-    private String path;
+    private String host, path;
+    private int port;
 
-    public NodeHandler(ZooKeeper zooKeeper, ActorRef storage, String path) {
+    public NodeHandler(String host, String port, ActorRef storage, String path) {
         this.path = path;
+        this.host = host;
+        this.port = port;
         this.zooKeeper = zooKeeper;
         this.storage = storage;
     }
