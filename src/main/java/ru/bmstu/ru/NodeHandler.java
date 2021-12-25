@@ -6,6 +6,7 @@ import ru.bmstu.ru.Messages.ServersListMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class NodeHandler implements Watcher{
@@ -36,8 +37,8 @@ public class NodeHandler implements Watcher{
 
     private void watchChildren(WatchedEvent event) {
         try{
-            List<String> servers =
-            System.out.println();
+            List<String> servers = new ArrayList<>(zooKeeper.getChildren(path, this::watchChildren)));
+            System.out.println(servers);
             storage.tell(new ServersListMessage(, ActorRef.noSender());
         } catch (InterruptedException| KeeperException e) {
             throw new RuntimeException(e);
