@@ -30,7 +30,7 @@ import static akka.http.javadsl.server.Directives.*;
 import static org.asynchttpclient.Dsl.asyncHttpClient;
 
 public class HttpServer {
-    private static final int PORT = 8888;
+    private static final int PORT = 9888;
     public static final String TEST_URL = "testUrl";
     public static final String LOCALHOST = "localhost";
     public static final String COUNT = "count";
@@ -64,7 +64,7 @@ public class HttpServer {
         AsyncHttpClient client = asyncHttpClient();
 
         NodeHandler nodeHandler = new NodeHandler(host, port, storage, SERVERS_PATH);
-        nodeHandler.start(LOCALHOST + ":" + 8888, host, String.valueOf(port));
+        nodeHandler.start(LOCALHOST + ":" + PORT, host, String.valueOf(port));
 
         final HttpServer instance = new HttpServer(storage, client);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRoute(actorSystem)
