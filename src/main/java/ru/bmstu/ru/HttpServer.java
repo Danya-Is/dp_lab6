@@ -82,7 +82,7 @@ public class HttpServer {
 
     public Route createRoute(ActorSystem actorSystem) {
         return route(
-                get(() -> parameter("url", url ->
+                get(() -> parameter("testUrl", url ->
                             parameter("count", count ->
                                 handleRequest(url, Integer.parseInt(count))
                             )
